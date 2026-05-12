@@ -123,6 +123,8 @@ function HandoverPage() {
         </CardContent>
       </Card>
 
+      <DailyHealthCard patientId={patientId} userId={user?.id} />
+
       <Card>
         <CardHeader className="flex-row items-center justify-between">
           <CardTitle className="text-base">Narrative</CardTitle>
