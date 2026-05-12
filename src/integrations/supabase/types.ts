@@ -14,16 +14,385 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      alerts: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string | null
+          patient_id: string | null
+          severity: string
+          source: string | null
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string | null
+          patient_id?: string | null
+          severity?: string
+          source?: string | null
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string | null
+          patient_id?: string | null
+          severity?: string
+          source?: string | null
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alerts_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      doctor_queries: {
+        Row: {
+          ai_insight: string | null
+          created_at: string
+          doctor_response: string | null
+          id: string
+          nurse_id: string | null
+          observation: string
+          patient_id: string | null
+          status: string | null
+          urgency: string | null
+        }
+        Insert: {
+          ai_insight?: string | null
+          created_at?: string
+          doctor_response?: string | null
+          id?: string
+          nurse_id?: string | null
+          observation: string
+          patient_id?: string | null
+          status?: string | null
+          urgency?: string | null
+        }
+        Update: {
+          ai_insight?: string | null
+          created_at?: string
+          doctor_response?: string | null
+          id?: string
+          nurse_id?: string | null
+          observation?: string
+          patient_id?: string | null
+          status?: string | null
+          urgency?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctor_queries_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      handovers: {
+        Row: {
+          created_at: string
+          id: string
+          narrative: string | null
+          patient_id: string
+          shift_from: string | null
+          shift_to: string | null
+          status: string
+          structured: Json | null
+          submitted_at: string | null
+          submitted_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          narrative?: string | null
+          patient_id: string
+          shift_from?: string | null
+          shift_to?: string | null
+          status?: string
+          structured?: Json | null
+          submitted_at?: string | null
+          submitted_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          narrative?: string | null
+          patient_id?: string
+          shift_from?: string | null
+          shift_to?: string | null
+          status?: string
+          structured?: Json | null
+          submitted_at?: string | null
+          submitted_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "handovers_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patients: {
+        Row: {
+          admission_date: string | null
+          age: number | null
+          allergies: string | null
+          assigned_nurse_id: string | null
+          attending_physician: string | null
+          condition_notes: string | null
+          created_at: string
+          diagnosis: string | null
+          full_name: string
+          id: string
+          mrn: string
+          room: string | null
+          sex: string | null
+          status: string | null
+          updated_at: string
+          ward: string | null
+        }
+        Insert: {
+          admission_date?: string | null
+          age?: number | null
+          allergies?: string | null
+          assigned_nurse_id?: string | null
+          attending_physician?: string | null
+          condition_notes?: string | null
+          created_at?: string
+          diagnosis?: string | null
+          full_name: string
+          id?: string
+          mrn: string
+          room?: string | null
+          sex?: string | null
+          status?: string | null
+          updated_at?: string
+          ward?: string | null
+        }
+        Update: {
+          admission_date?: string | null
+          age?: number | null
+          allergies?: string | null
+          assigned_nurse_id?: string | null
+          attending_physician?: string | null
+          condition_notes?: string | null
+          created_at?: string
+          diagnosis?: string | null
+          full_name?: string
+          id?: string
+          mrn?: string
+          room?: string | null
+          sex?: string | null
+          status?: string | null
+          updated_at?: string
+          ward?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          notif_doctor_reply: boolean | null
+          notif_handover: boolean | null
+          notif_high_priority: boolean | null
+          notif_vitals: boolean | null
+          phone: string | null
+          role: string | null
+          shift: string | null
+          theme_pref: string | null
+          updated_at: string
+          ward: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          notif_doctor_reply?: boolean | null
+          notif_handover?: boolean | null
+          notif_high_priority?: boolean | null
+          notif_vitals?: boolean | null
+          phone?: string | null
+          role?: string | null
+          shift?: string | null
+          theme_pref?: string | null
+          updated_at?: string
+          ward?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          notif_doctor_reply?: boolean | null
+          notif_handover?: boolean | null
+          notif_high_priority?: boolean | null
+          notif_vitals?: boolean | null
+          phone?: string | null
+          role?: string | null
+          shift?: string | null
+          theme_pref?: string | null
+          updated_at?: string
+          ward?: string | null
+        }
+        Relationships: []
+      }
+      reminders: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          description: string | null
+          due_at: string
+          id: string
+          patient_id: string
+          priority: string
+          status: string
+          title: string
+          type: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          description?: string | null
+          due_at: string
+          id?: string
+          patient_id: string
+          priority?: string
+          status?: string
+          title: string
+          type?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          description?: string | null
+          due_at?: string
+          id?: string
+          patient_id?: string
+          priority?: string
+          status?: string
+          title?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vitals: {
+        Row: {
+          bp_dia: number | null
+          bp_sys: number | null
+          created_at: string
+          hr: number | null
+          id: string
+          notes: string | null
+          patient_id: string
+          recorded_at: string
+          recorded_by: string | null
+          resp_rate: number | null
+          spo2: number | null
+          temp: number | null
+        }
+        Insert: {
+          bp_dia?: number | null
+          bp_sys?: number | null
+          created_at?: string
+          hr?: number | null
+          id?: string
+          notes?: string | null
+          patient_id: string
+          recorded_at?: string
+          recorded_by?: string | null
+          resp_rate?: number | null
+          spo2?: number | null
+          temp?: number | null
+        }
+        Update: {
+          bp_dia?: number | null
+          bp_sys?: number | null
+          created_at?: string
+          hr?: number | null
+          id?: string
+          notes?: string | null
+          patient_id?: string
+          recorded_at?: string
+          recorded_by?: string | null
+          resp_rate?: number | null
+          spo2?: number | null
+          temp?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vitals_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "doctor" | "nurse"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +519,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "doctor", "nurse"],
+    },
   },
 } as const
