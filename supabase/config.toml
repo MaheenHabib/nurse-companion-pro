@@ -1,0 +1,4 @@
+project_id = "uppggvfxvxmvqjdkawdl"
+
+[functions.clinical-ai]
+verify_jwt = false
