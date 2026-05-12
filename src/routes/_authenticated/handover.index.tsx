@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Sparkles, Save, Activity } from "lucide-react";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
-import { useAuth as useAuthCtx } from "@/lib/auth-context";
+
 
 export const Route = createFileRoute("/_authenticated/handover/")({
   component: HandoverPage,
