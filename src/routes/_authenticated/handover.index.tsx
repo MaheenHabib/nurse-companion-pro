@@ -6,9 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Sparkles, Save } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Sparkles, Save, Activity } from "lucide-react";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
+
 
 export const Route = createFileRoute("/_authenticated/handover/")({
   component: HandoverPage,
@@ -120,6 +123,8 @@ function HandoverPage() {
         </CardContent>
       </Card>
 
+      <DailyHealthCard patientId={patientId} userId={user?.id} />
+
       <Card>
         <CardHeader className="flex-row items-center justify-between">
           <CardTitle className="text-base">Narrative</CardTitle>
@@ -142,5 +147,56 @@ function HandoverPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+function DailyHealthCard({ patientId, userId }: { patientId: string; userId?: string }) {
+  const [v, setV] = useState({ hr: "", bp_sys: "", bp_dia: "", spo2: "", resp_rate: "", temp: "", notes: "" });
+  const [saving, setSaving] = useState(false);
+
+  const save = async () => {
+    if (!patientId) return toast.error("Pick a patient first");
+    setSaving(true);
+    const { error } = await supabase.from("vitals").insert({
+      patient_id: patientId,
+      hr: v.hr ? parseInt(v.hr) : null,
+      bp_sys: v.bp_sys ? parseInt(v.bp_sys) : null,
+      bp_dia: v.bp_dia ? parseInt(v.bp_dia) : null,
+      spo2: v.spo2 ? parseInt(v.spo2) : null,
+      resp_rate: v.resp_rate ? parseInt(v.resp_rate) : null,
+      temp: v.temp ? parseFloat(v.temp) : null,
+      notes: v.notes || null,
+      recorded_by: userId,
+      recorded_at: new Date().toISOString(),
+    });
+    setSaving(false);
+    if (error) return toast.error(error.message);
+    toast.success("Daily health record updated");
+    setV({ hr: "", bp_sys: "", bp_dia: "", spo2: "", resp_rate: "", temp: "", notes: "" });
+  };
+
+  return (
+    <Card>
+      <CardHeader className="flex-row items-center justify-between">
+        <CardTitle className="text-base flex items-center gap-2"><Activity className="w-4 h-4" /> Update daily health record</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div><Label className="block mb-1.5 text-xs">Heart rate (bpm)</Label><Input type="number" value={v.hr} onChange={(e) => setV({ ...v, hr: e.target.value })} /></div>
+          <div><Label className="block mb-1.5 text-xs">BP systolic</Label><Input type="number" value={v.bp_sys} onChange={(e) => setV({ ...v, bp_sys: e.target.value })} /></div>
+          <div><Label className="block mb-1.5 text-xs">BP diastolic</Label><Input type="number" value={v.bp_dia} onChange={(e) => setV({ ...v, bp_dia: e.target.value })} /></div>
+          <div><Label className="block mb-1.5 text-xs">SpO2 (%)</Label><Input type="number" value={v.spo2} onChange={(e) => setV({ ...v, spo2: e.target.value })} /></div>
+          <div><Label className="block mb-1.5 text-xs">Resp rate</Label><Input type="number" value={v.resp_rate} onChange={(e) => setV({ ...v, resp_rate: e.target.value })} /></div>
+          <div><Label className="block mb-1.5 text-xs">Temp (°C)</Label><Input type="number" step="0.1" value={v.temp} onChange={(e) => setV({ ...v, temp: e.target.value })} /></div>
+        </div>
+        <div>
+          <Label className="block mb-1.5 text-xs">Notes</Label>
+          <Textarea rows={2} value={v.notes} onChange={(e) => setV({ ...v, notes: e.target.value })} placeholder="Observations for today's record…" />
+        </div>
+        <div className="flex justify-end">
+          <Button onClick={save} disabled={saving}><Save className="w-4 h-4 mr-2" /> {saving ? "Saving…" : "Save record"}</Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
