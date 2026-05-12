@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedVitalsDueRouteImport } from './routes/_authenticated/vitals-due'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedPatientsIndexRouteImport } from './routes/_authenticated/patients.index'
+import { Route as AuthenticatedHandoverIndexRouteImport } from './routes/_authenticated/handover.index'
 import { Route as AuthenticatedPatientsIdRouteImport } from './routes/_authenticated/patients.$id'
 
 const SignupRoute = SignupRouteImport.update({
@@ -53,6 +54,12 @@ const AuthenticatedPatientsIndexRoute =
     path: '/patients/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedHandoverIndexRoute =
+  AuthenticatedHandoverIndexRouteImport.update({
+    id: '/handover/',
+    path: '/handover/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedPatientsIdRoute = AuthenticatedPatientsIdRouteImport.update({
   id: '/patients/$id',
   path: '/patients/$id',
@@ -66,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/vitals-due': typeof AuthenticatedVitalsDueRoute
   '/patients/$id': typeof AuthenticatedPatientsIdRoute
+  '/handover/': typeof AuthenticatedHandoverIndexRoute
   '/patients/': typeof AuthenticatedPatientsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -75,6 +83,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/vitals-due': typeof AuthenticatedVitalsDueRoute
   '/patients/$id': typeof AuthenticatedPatientsIdRoute
+  '/handover': typeof AuthenticatedHandoverIndexRoute
   '/patients': typeof AuthenticatedPatientsIndexRoute
 }
 export interface FileRoutesById {
@@ -86,6 +95,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/vitals-due': typeof AuthenticatedVitalsDueRoute
   '/_authenticated/patients/$id': typeof AuthenticatedPatientsIdRoute
+  '/_authenticated/handover/': typeof AuthenticatedHandoverIndexRoute
   '/_authenticated/patients/': typeof AuthenticatedPatientsIndexRoute
 }
 export interface FileRouteTypes {
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/vitals-due'
     | '/patients/$id'
+    | '/handover/'
     | '/patients/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/vitals-due'
     | '/patients/$id'
+    | '/handover'
     | '/patients'
   id:
     | '__root__'
@@ -116,6 +128,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/vitals-due'
     | '/_authenticated/patients/$id'
+    | '/_authenticated/handover/'
     | '/_authenticated/patients/'
   fileRoutesById: FileRoutesById
 }
@@ -177,6 +190,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPatientsIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/handover/': {
+      id: '/_authenticated/handover/'
+      path: '/handover'
+      fullPath: '/handover/'
+      preLoaderRoute: typeof AuthenticatedHandoverIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/patients/$id': {
       id: '/_authenticated/patients/$id'
       path: '/patients/$id'
@@ -191,6 +211,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedVitalsDueRoute: typeof AuthenticatedVitalsDueRoute
   AuthenticatedPatientsIdRoute: typeof AuthenticatedPatientsIdRoute
+  AuthenticatedHandoverIndexRoute: typeof AuthenticatedHandoverIndexRoute
   AuthenticatedPatientsIndexRoute: typeof AuthenticatedPatientsIndexRoute
 }
 
@@ -198,6 +219,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedVitalsDueRoute: AuthenticatedVitalsDueRoute,
   AuthenticatedPatientsIdRoute: AuthenticatedPatientsIdRoute,
+  AuthenticatedHandoverIndexRoute: AuthenticatedHandoverIndexRoute,
   AuthenticatedPatientsIndexRoute: AuthenticatedPatientsIndexRoute,
 }
 
