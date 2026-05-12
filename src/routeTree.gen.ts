@@ -18,6 +18,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedPatientsIndexRouteImport } from './routes/_authenticated/patients.index'
 import { Route as AuthenticatedHandoverIndexRouteImport } from './routes/_authenticated/handover.index'
 import { Route as AuthenticatedPatientsIdRouteImport } from './routes/_authenticated/patients.$id'
+import { Route as AuthenticatedHandoverRecordsRouteImport } from './routes/_authenticated/handover.records'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -65,6 +66,12 @@ const AuthenticatedPatientsIdRoute = AuthenticatedPatientsIdRouteImport.update({
   path: '/patients/$id',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedHandoverRecordsRoute =
+  AuthenticatedHandoverRecordsRouteImport.update({
+    id: '/handover/records',
+    path: '/handover/records',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/vitals-due': typeof AuthenticatedVitalsDueRoute
+  '/handover/records': typeof AuthenticatedHandoverRecordsRoute
   '/patients/$id': typeof AuthenticatedPatientsIdRoute
   '/handover/': typeof AuthenticatedHandoverIndexRoute
   '/patients/': typeof AuthenticatedPatientsIndexRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/vitals-due': typeof AuthenticatedVitalsDueRoute
+  '/handover/records': typeof AuthenticatedHandoverRecordsRoute
   '/patients/$id': typeof AuthenticatedPatientsIdRoute
   '/handover': typeof AuthenticatedHandoverIndexRoute
   '/patients': typeof AuthenticatedPatientsIndexRoute
@@ -94,6 +103,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/vitals-due': typeof AuthenticatedVitalsDueRoute
+  '/_authenticated/handover/records': typeof AuthenticatedHandoverRecordsRoute
   '/_authenticated/patients/$id': typeof AuthenticatedPatientsIdRoute
   '/_authenticated/handover/': typeof AuthenticatedHandoverIndexRoute
   '/_authenticated/patients/': typeof AuthenticatedPatientsIndexRoute
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard'
     | '/vitals-due'
+    | '/handover/records'
     | '/patients/$id'
     | '/handover/'
     | '/patients/'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard'
     | '/vitals-due'
+    | '/handover/records'
     | '/patients/$id'
     | '/handover'
     | '/patients'
@@ -127,6 +139,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/_authenticated/dashboard'
     | '/_authenticated/vitals-due'
+    | '/_authenticated/handover/records'
     | '/_authenticated/patients/$id'
     | '/_authenticated/handover/'
     | '/_authenticated/patients/'
@@ -204,12 +217,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPatientsIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/handover/records': {
+      id: '/_authenticated/handover/records'
+      path: '/handover/records'
+      fullPath: '/handover/records'
+      preLoaderRoute: typeof AuthenticatedHandoverRecordsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedVitalsDueRoute: typeof AuthenticatedVitalsDueRoute
+  AuthenticatedHandoverRecordsRoute: typeof AuthenticatedHandoverRecordsRoute
   AuthenticatedPatientsIdRoute: typeof AuthenticatedPatientsIdRoute
   AuthenticatedHandoverIndexRoute: typeof AuthenticatedHandoverIndexRoute
   AuthenticatedPatientsIndexRoute: typeof AuthenticatedPatientsIndexRoute
@@ -218,6 +239,7 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedVitalsDueRoute: AuthenticatedVitalsDueRoute,
+  AuthenticatedHandoverRecordsRoute: AuthenticatedHandoverRecordsRoute,
   AuthenticatedPatientsIdRoute: AuthenticatedPatientsIdRoute,
   AuthenticatedHandoverIndexRoute: AuthenticatedHandoverIndexRoute,
   AuthenticatedPatientsIndexRoute: AuthenticatedPatientsIndexRoute,
