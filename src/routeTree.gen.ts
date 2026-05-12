@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedVitalsDueRouteImport } from './routes/_authenticated/vitals-due'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedDoctorQueryRouteImport } from './routes/_authenticated/doctor-query'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAlertsRouteImport } from './routes/_authenticated/alerts'
@@ -44,6 +45,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthenticatedVitalsDueRoute = AuthenticatedVitalsDueRouteImport.update({
   id: '/vitals-due',
   path: '/vitals-due',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedDoctorQueryRoute =
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/alerts': typeof AuthenticatedAlertsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/doctor-query': typeof AuthenticatedDoctorQueryRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/vitals-due': typeof AuthenticatedVitalsDueRoute
   '/handover/records': typeof AuthenticatedHandoverRecordsRoute
   '/patients/$id': typeof AuthenticatedPatientsIdRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/alerts': typeof AuthenticatedAlertsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/doctor-query': typeof AuthenticatedDoctorQueryRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/vitals-due': typeof AuthenticatedVitalsDueRoute
   '/handover/records': typeof AuthenticatedHandoverRecordsRoute
   '/patients/$id': typeof AuthenticatedPatientsIdRoute
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/_authenticated/alerts': typeof AuthenticatedAlertsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/doctor-query': typeof AuthenticatedDoctorQueryRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/vitals-due': typeof AuthenticatedVitalsDueRoute
   '/_authenticated/handover/records': typeof AuthenticatedHandoverRecordsRoute
   '/_authenticated/patients/$id': typeof AuthenticatedPatientsIdRoute
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/alerts'
     | '/dashboard'
     | '/doctor-query'
+    | '/profile'
     | '/vitals-due'
     | '/handover/records'
     | '/patients/$id'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/alerts'
     | '/dashboard'
     | '/doctor-query'
+    | '/profile'
     | '/vitals-due'
     | '/handover/records'
     | '/patients/$id'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/_authenticated/alerts'
     | '/_authenticated/dashboard'
     | '/_authenticated/doctor-query'
+    | '/_authenticated/profile'
     | '/_authenticated/vitals-due'
     | '/_authenticated/handover/records'
     | '/_authenticated/patients/$id'
@@ -212,6 +224,13 @@ declare module '@tanstack/react-router' {
       path: '/vitals-due'
       fullPath: '/vitals-due'
       preLoaderRoute: typeof AuthenticatedVitalsDueRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/doctor-query': {
@@ -270,6 +289,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedAlertsRoute: typeof AuthenticatedAlertsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDoctorQueryRoute: typeof AuthenticatedDoctorQueryRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedVitalsDueRoute: typeof AuthenticatedVitalsDueRoute
   AuthenticatedHandoverRecordsRoute: typeof AuthenticatedHandoverRecordsRoute
   AuthenticatedPatientsIdRoute: typeof AuthenticatedPatientsIdRoute
@@ -281,6 +301,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAlertsRoute: AuthenticatedAlertsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDoctorQueryRoute: AuthenticatedDoctorQueryRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedVitalsDueRoute: AuthenticatedVitalsDueRoute,
   AuthenticatedHandoverRecordsRoute: AuthenticatedHandoverRecordsRoute,
   AuthenticatedPatientsIdRoute: AuthenticatedPatientsIdRoute,
