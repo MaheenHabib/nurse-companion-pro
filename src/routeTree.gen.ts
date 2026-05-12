@@ -13,6 +13,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedVitalsDueRouteImport } from './routes/_authenticated/vitals-due'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedPatientsIndexRouteImport } from './routes/_authenticated/patients.index'
 import { Route as AuthenticatedPatientsIdRouteImport } from './routes/_authenticated/patients.$id'
@@ -36,6 +37,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedVitalsDueRoute = AuthenticatedVitalsDueRouteImport.update({
+  id: '/vitals-due',
+  path: '/vitals-due',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/vitals-due': typeof AuthenticatedVitalsDueRoute
   '/patients/$id': typeof AuthenticatedPatientsIdRoute
   '/patients/': typeof AuthenticatedPatientsIndexRoute
 }
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/vitals-due': typeof AuthenticatedVitalsDueRoute
   '/patients/$id': typeof AuthenticatedPatientsIdRoute
   '/patients': typeof AuthenticatedPatientsIndexRoute
 }
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/vitals-due': typeof AuthenticatedVitalsDueRoute
   '/_authenticated/patients/$id': typeof AuthenticatedPatientsIdRoute
   '/_authenticated/patients/': typeof AuthenticatedPatientsIndexRoute
 }
@@ -86,10 +95,18 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/dashboard'
+    | '/vitals-due'
     | '/patients/$id'
     | '/patients/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/dashboard' | '/patients/$id' | '/patients'
+  to:
+    | '/'
+    | '/login'
+    | '/signup'
+    | '/dashboard'
+    | '/vitals-due'
+    | '/patients/$id'
+    | '/patients'
   id:
     | '__root__'
     | '/'
@@ -97,6 +114,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/_authenticated/dashboard'
+    | '/_authenticated/vitals-due'
     | '/_authenticated/patients/$id'
     | '/_authenticated/patients/'
   fileRoutesById: FileRoutesById
@@ -138,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/vitals-due': {
+      id: '/_authenticated/vitals-due'
+      path: '/vitals-due'
+      fullPath: '/vitals-due'
+      preLoaderRoute: typeof AuthenticatedVitalsDueRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -164,12 +189,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedVitalsDueRoute: typeof AuthenticatedVitalsDueRoute
   AuthenticatedPatientsIdRoute: typeof AuthenticatedPatientsIdRoute
   AuthenticatedPatientsIndexRoute: typeof AuthenticatedPatientsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedVitalsDueRoute: AuthenticatedVitalsDueRoute,
   AuthenticatedPatientsIdRoute: AuthenticatedPatientsIdRoute,
   AuthenticatedPatientsIndexRoute: AuthenticatedPatientsIndexRoute,
 }
